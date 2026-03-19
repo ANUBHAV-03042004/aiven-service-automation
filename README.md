@@ -1,6 +1,8 @@
-# 🐘 AivenAutomation
+<div align="center">
 
-> **Automatically keeps your Aiven free PostgreSQL service alive — no manual logins needed.**
+# 🦀 AivenAutomation
+
+**Automatically keeps your Aiven free PostgreSQL service alive — no manual logins needed.**
 
 ![n8n](https://img.shields.io/badge/n8n-workflow-EA4B71?logo=n8n&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Aiven-336791?logo=postgresql&logoColor=white)
@@ -9,13 +11,19 @@
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 ![Auth](https://img.shields.io/badge/auth-Aiven_API_Token-orange)
 
+</div>
+
 ---
 
 ## 📌 Problem
 
+<div align="center">
+
 Aiven's free tier has a strict **7-day inactivity policy** — if neither you nor your app interacts with the platform within 7 days, Aiven automatically powers off your service. You then get an email like:
 
 > *"Your free service pg-299a2a9f hasn't been actively used recently."*
+
+</div>
 
 And then you have to:
 1. Remember to check your email
@@ -31,11 +39,15 @@ This is frustrating when you're using the database for a side project or learnin
 
 ## 🏗️ Architecture
 
+<div align="center">
+
 ### Workflow Diagram
 ![Workflow Architecture](architecture/diagram.png)
 
 ### Node Flow (SVG)
 ![n8n Flow SVG](architecture/architecture.svg)
+
+</div>
 
 The workflow follows a simple linear flow with a conditional branch at the end:
 
@@ -49,6 +61,8 @@ The workflow follows a simple linear flow with a conditional branch at the end:
 
 ## ⚙️ How It Works
 
+<div align="center">
+
 ```
 Schedule Trigger (every 2 days @ 7 AM)
         ↓
@@ -59,11 +73,15 @@ IF → service.state == "RUNNING"?
     ❌ false → Stop and Error: "Automation stopped"
 ```
 
+</div>
+
 The API ping registers as platform activity on Aiven, preventing the idle shutdown.
 
 ---
 
 ## 🗂️ Workflow Nodes
+
+<div align="center">
 
 | Node | Type | Purpose |
 |------|------|---------|
@@ -72,6 +90,8 @@ The API ping registers as platform activity on Aiven, preventing the idle shutdo
 | IF | `n8n-nodes-base.if` | Checks if service state is `RUNNING` |
 | Send a message | `n8n-nodes-base.gmail` | Sends success email notification |
 | Stop and Error | `n8n-nodes-base.stopAndError` | Halts workflow and flags the issue |
+
+</div>
 
 ---
 
@@ -82,7 +102,7 @@ The API ping registers as platform activity on Aiven, preventing the idle shutdo
 GET https://api.aiven.io/v1/project/kartavya/service/pg-299a2a9f
 ```
 
-**Why this URL?**  
+**Why this URL?**
 The [Aiven REST API](https://api.aiven.io/doc/) follows the pattern:
 ```
 /v1/project/{project_name}/service/{service_name}
@@ -159,6 +179,8 @@ Insert a **Set** node after HTTP Request and log `{{ $json.service.state }}`. If
 
 ## 📊 Stats
 
+<div align="center">
+
 | Property | Value |
 |----------|-------|
 | Trigger frequency | Every 2 days |
@@ -170,25 +192,44 @@ Insert a **Set** node after HTTP Request and log `{{ $json.service.state }}`. If
 | Service | pg-299a2a9f (PostgreSQL) |
 | Notification email | mr.aksthegreat03042004@gmail.com |
 
+</div>
+
 ---
 
 ## ⚠️ Important — Token Setup
 
-Use a **non-expiring** token (leave session duration blank when generating). Do **not** use a browser session token (those expire in hours).
+<div align="center">
+
+Use a **non-expiring** token (leave session duration blank when generating).
+Do **not** use a browser session token (those expire in hours).
+
+</div>
 
 ---
 
 ## 🙏 Acknowledgements
 
+<div align="center">
+
 Big thanks to the tools that made this possible:
 
-- **[Aiven](https://aiven.io)** — for providing a free PostgreSQL tier and a clean, well-documented REST API that made this automation straightforward to build. Without the `/v1/project/{project}/service/{service}` endpoint being openly accessible via token auth, this whole workflow wouldn't exist.
-- **[n8n](https://n8n.io)** — for the open-source workflow automation platform that powers this entire flow, and for making HTTP requests, scheduling, and Gmail integration dead simple without writing a single line of code.
-- **[Render](https://render.com)** — for hosting n8n on their free tier so this automation runs 24/7 without any infrastructure cost.
-- **[Gmail API / Google OAuth](https://developers.google.com/gmail)** — for the notification layer that alerts when something goes wrong.
+| Tool | Role |
+|------|------|
+| [Aiven](https://aiven.io) | Free PostgreSQL tier + clean REST API |
+| [n8n](https://n8n.io) | Open-source workflow automation platform |
+| [Render](https://render.com) | Free hosting for n8n, runs 24/7 |
+| [Gmail API](https://developers.google.com/gmail) | Notification layer for alerts |
+
+</div>
 
 ---
+
+<div align="center">
 
 ## 📄 License
 
 MIT — free to use and modify.
+
+**Made with 🦀 to defeat Aiven's idle timeout**
+
+</div>
