@@ -45,7 +45,7 @@ This is frustrating when you're using the database for a side project or learnin
 ![Workflow Architecture](architecture/diagram.png)
 
 ### Node Flow (SVG)
-![n8n Flow SVG](architecture/architecture.svg)
+![n8n Flow SVG](architecture/aiven_automation_architecture.svg)
 
 </div>
 
